@@ -13,9 +13,16 @@ class userController extends Controller
     {
         echo "hi user" . "<br>";
     }
+    public function isLogin(){
+        session_start();
+        if(!empty($_SESSION["email"])){
+            header('Location: ' . '/home/');
+        }
+    }
 
     public function registration()
     {
+        $this->isLogin();
         $this->view('user' . DIRECTORY_SEPARATOR . 'registration');
         $this->view->render();
     }
@@ -41,6 +48,7 @@ class userController extends Controller
 
     public function login()
     {
+        $this->isLogin();
         $this->view('user' . DIRECTORY_SEPARATOR . 'login');
         $this->view->render();
     }
@@ -56,24 +64,27 @@ class userController extends Controller
         if ($user->login($email, $pass)) {
             session_start();
             $_SESSION["email"] = $email;
+            $_SESSION["isAdmin"]=($user->isAdmin($email))?true:false;
+
             echo "login " . "<br>";
-            header('Location: ' . '/');
+             header('Location: ' . '/');
         } else {
             echo "no login" . "<br>";
         }
-
-
     }
 
     public function logout()
     {
-        session_start();
+        if(!isset($_SESSION))
+        {
+            session_start();
+        }
         session_destroy();
-        echo "<pre>";
-        print_r($_SESSION);
-        echo "</pre>";
-        header('Location: ' . '/');
+        //$_SESSION["email"]=null;
+       header('Location: ' . '/');
     }
+
+
 
 
 

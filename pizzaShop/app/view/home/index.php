@@ -3,20 +3,28 @@ include VIEW . 'header.phtml';
 ?>
 
     <div class="jumbotron clearfix">
-        <?php
-        if(array_key_exists('cat',$this->view_data)){
-            $cat=$this->view_data['cat'];
-            echo "<h3>категория пица:</h3>" . "<br>";
-            echo "<hr>" ;
-            echo "<a href='/home/''><button>всички</button></a>" . "<br>";
-            echo "" . "<br>";
-            foreach ($cat as $data){
-                $categoria_pizza=$data["categoria_pizza"];
-                $id_categoria_pizza=$data["id_categoria_pizza"];
-                echo "<a href='/home/index/$id_categoria_pizza''><p>$categoria_pizza</p></a>" ;
-            }
-        }
-        ?>
+
+        <ul class="nav nav-pills">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Категория пици</a>
+            <div class="dropdown-menu">
+                <?php
+                if (array_key_exists('cat', $this->view_data)){
+                    $cat = $this->view_data['cat'];
+
+               echo "<a class='dropdown-item' href='/home/''>Всички</a>";
+
+               foreach ($cat as $data){
+                   $categoria_pizza=$data["categoria_pizza"];
+                   $id_categoria_pizza=$data["id_categoria_pizza"];
+                   echo "<a class='dropdown-item' href='/home/index/$id_categoria_pizza''>$categoria_pizza</a>";
+               }
+                }
+                ?>
+            </div>
+        </li>
+        </ul>
+
     <div class="wop">
         <div class="card mb-3">
             <h3 class="card-header">Make your own pizza</h3>

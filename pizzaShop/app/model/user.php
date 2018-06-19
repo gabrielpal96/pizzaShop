@@ -75,18 +75,18 @@ class user
         var_dump($result);
         echo"</pre>";
         $login =$result->fetch_assoc();
+        $this->isAdmin($email);
         if($result->num_rows == 1 && password_verify($pass, $login['user_pass'])){
-        	$_SESSION['user_address'] =  $login['user_address'];
+        	$_SESSION['email'] =  $login['user_email'];
         	return true;
         }
         return false;
     }
 
-
-    public function test(){
+    public function isAdmin($email){
         $db=new db();
-        $sql="SELECT `systavki`.`sustavka`, `systavki`.* FROM `systavki`";
-        $test=$db->run($sql);
-        return $test->fetch_assoc();
+        $sql = "SELECT `admin_user`.`user_email` FROM `admin_user` WHERE (`admin_user`.`user_email` =\"$email\")";
+        $result= $db->run($sql);
+        return (!empty($result->fetch_assoc()))?true:false;
     }
 }

@@ -8,17 +8,28 @@
 
 class adminController extends Controller
 {
+
+    public function isAdmin(){
+        session_start();
+        if(!$_SESSION["isAdmin"]){
+            header('Location: ' . '/home/');
+        }
+    }
+
     public function index(){
+        $this->isAdmin();
         $this->view('admin' . DIRECTORY_SEPARATOR . "index");
         $this->view->render();
     }
 
     public function addIngredients(){
+        $this->isAdmin();
         $this->model("pizza");
         $this->view('admin' . DIRECTORY_SEPARATOR . "addIngredients",['AllIngredients'=>$this->model->getCategory_ingredients()]);
         $this->view->render();
     }
     public function addIngredientsAction(){
+        $this->isAdmin();
         $this->model('admin');
             echo "<pre>";
             print_r($_POST);
@@ -30,11 +41,13 @@ class adminController extends Controller
     }
 
     public function viewAllIngredients(){
+        $this->isAdmin();
         $this->model("pizza");
         $this->view('admin' . DIRECTORY_SEPARATOR . "vieAllIngredients",["viewAllIngredients"=>$this->model->getIngredients()]);
         $this->view->render();
     }
     public function deleteIngredient($id){
+        $this->isAdmin();
         $this->model("admin");
         $admin=new admin();
         if ($admin->deleteIngredient($id)){
@@ -42,11 +55,13 @@ class adminController extends Controller
         }
     }
     public function editIngredient($id=null){
+        $this->isAdmin();
         $this->model("pizza");
         $this->view('admin' . DIRECTORY_SEPARATOR . "editIngredient",["Ingredients"=>$this->model->getIngredient($id),'AllIngredients'=>$this->model->getCategory_ingredients()]);
         $this->view->render();
     }
     public function editIngredientAction(){
+        $this->isAdmin();
         $this->model("admin");
         $admin=new admin();
         if($admin->editIngredient($_POST["id"],$_POST["name"],$_POST["price"])){
