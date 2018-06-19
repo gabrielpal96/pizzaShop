@@ -14,6 +14,13 @@ include VIEW . 'header.phtml';
                     </div>
                 </div>
                 <div class="form-group">
+                    <label for="=email">NAME</label>
+                    <div class="wop1">
+                        <input class="form-control" id="name" aria-describedby="emailHelp" placeholder="Enter name" type="name" name="name">
+                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for="password">Password</label>
                     <div class="wop1">
                         <input class="form-control" id="password" aria-describedby="passHelp" placeholder="Enter password" type="password" name="password">
@@ -35,6 +42,14 @@ include VIEW . 'header.phtml';
                     <label for="address">Address</label>
                     <div class="wop1">
                         <input class="form-control" id="address" aria-describedby="adrHelp" placeholder="Enter you address" type="text" name="address">
+                        <small id="adrHelp" class="form-text text-muted">So we can deliver it to your door.</small>
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label for="address">phone</label>
+                    <div class="wop1">
+                        <input class="form-control" id="phone" aria-describedby="adrHelp" placeholder="Enter you phone" type="text" name="phone">
                         <small id="adrHelp" class="form-text text-muted">So we can deliver it to your door.</small>
                     </div>
 

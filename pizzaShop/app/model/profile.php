@@ -25,6 +25,14 @@ class profile
         $address=$this->db->run($sql)->fetch_assoc();
         return $address;
     }
+    public function getUser($email){
+        $sql = "SELECT `user`.*\n"
+
+            . "FROM `user`\n"
+
+            . "WHERE (`user`.`user_email` =\"$email\") ORDER BY `user_id`  DESC";
+       return $this->db->run($sql)->fetch_assoc();
+    }
     public function editAddress($address){
         session_start();
         $email=$_SESSION['email'];

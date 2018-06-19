@@ -12,7 +12,7 @@ class user
     protected $email='';
     protected $pas='';
     protected $adr='';
-
+    protected $phone='';
     /**
      * user constructor.
      * @param string $n
@@ -20,12 +20,13 @@ class user
      * @param string $p
      * @param string $a
      */
-    public function __construct($n="",$e="",$p="",$a="")
+    public function __construct($n="",$e="",$p="",$a="",$phone="")
     {
         $this->name=$n;
         $this->email=$e;
         $this->pas=$p;
         $this->adr=$a;
+        $this->phone=$phone;
 
     }
 
@@ -38,9 +39,10 @@ class user
         $pas=$this->pas;
         $new_password = password_hash($pas, PASSWORD_DEFAULT);
         $adr=$this->adr;
-
+        $name=$this->name;
+        $phone=$this->phone;
      try{
-         $sql = "INSERT INTO `user` (`user_email`, `user_pass`, `user_address`) VALUES ('$email','$new_password', '$adr')";
+         $sql = "INSERT INTO `user` (`user_id`, `user_email`, `user_name`, `user_pass`, `user_phone`, `user_address`) VALUES (NULL, '$email', '$name', '$new_password', '$phone', '$adr');";
 
          if($db->save($sql)){
              return true;

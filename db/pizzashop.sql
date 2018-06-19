@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 13 юни 2018 в 17:42
+-- Generation Time: 19 юни 2018 в 18:16
 -- Версия на сървъра: 10.1.30-MariaDB
 -- PHP Version: 7.0.27
 
@@ -22,6 +22,31 @@ SET time_zone = "+00:00";
 --
 -- Database: `pizzashop`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Структура на таблица `admin_user`
+--
+-- Създаване: 19 юни 2018 в 13:38
+--
+
+CREATE TABLE `admin_user` (
+  `user_email` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- RELATIONSHIPS FOR TABLE `admin_user`:
+--   `user_email`
+--       `user` -> `user_email`
+--
+
+--
+-- Схема на данните от таблица `admin_user`
+--
+
+INSERT INTO `admin_user` (`user_email`) VALUES
+('admin@admin.ad');
 
 -- --------------------------------------------------------
 
@@ -46,7 +71,9 @@ CREATE TABLE `categoria_pizza` (
 
 INSERT INTO `categoria_pizza` (`id_categoria_pizza`, `categoria_pizza`) VALUES
 (3, 'местна'),
-(4, 'безместна');
+(4, 'безместна'),
+(5, 'люта'),
+(6, 'Нова');
 
 -- --------------------------------------------------------
 
@@ -104,7 +131,7 @@ CREATE TABLE `deliverers` (
 
 CREATE TABLE `ingredients` (
   `ingredients_id` int(100) NOT NULL,
-  `ingredients_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci NOT NULL,
+  `ingredients_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `ingredients_category` varchar(100) NOT NULL,
   `ingredients_price` int(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -124,15 +151,19 @@ CREATE TABLE `ingredients` (
 INSERT INTO `ingredients` (`ingredients_id`, `ingredients_name`, `ingredients_category`, `ingredients_price`) VALUES
 (1, 'BBQ', 'sosove', 0),
 (3, 'доматен сос', 'sosove', 0),
-(4, 'салам пеперони', 'meso', 2),
-(5, 'krave sirene', 'sirena', 1),
+(4, 'салам пеперониi', 'meso', 2),
+(5, 'краве сирене', 'sirena', 1),
 (6, 'chushka', 'zelenchuci\r\n', 1),
 (7, 'Пушена шунка', 'meso', 2),
 (8, 'Пикантно телешко', 'meso', 2),
 (9, 'Чоризо', 'meso', 2),
 (10, 'Пушен бекон', 'meso', 2),
 (11, 'риба тон', 'meso', 2),
-(12, 'пиле', 'meso', 2);
+(12, 'пиле', 'meso', 2),
+(13, 'люти чушки', 'zelenchuci\r\n', 1),
+(35, 'лук', 'meso', 1),
+(38, 'пармезан', 'sirena', 2),
+(39, 'маслини', 'zelenchuci\r\n', 1);
 
 -- --------------------------------------------------------
 
@@ -188,8 +219,10 @@ CREATE TABLE `pizza` (
 --
 
 INSERT INTO `pizza` (`pizza_id`, `pizza_name`, `pizza_price`, `pizza_weight`, `pizza_photo`, `categoria_pizza`) VALUES
+(0, 'направена пица', 5, 420, 'nova.JPG', 6),
 (8, 'пеперони', 12, 420, 'piperoni.jpg', 3),
-(9, 'маргарита', 8, 450, 'margarita.jpg', 4);
+(9, 'маргарита', 8, 450, 'margarita.jpg', 4),
+(10, 'люта', 9, 400, 'pivantna.jpg', 5);
 
 -- --------------------------------------------------------
 
@@ -220,22 +253,26 @@ INSERT INTO `recipe_ingredients` (`rec_id`, `ing_id`) VALUES
 (8, 1),
 (8, 4),
 (9, 3),
-(9, 6);
+(9, 6),
+(10, 1),
+(10, 9),
+(10, 13);
 
 -- --------------------------------------------------------
 
 --
 -- Структура на таблица `user`
 --
--- Създаване: 28 май 2018 в 11:31
+-- Създаване: 19 юни 2018 в 15:59
 --
 
 CREATE TABLE `user` (
   `user_id` int(100) NOT NULL,
   `user_email` varchar(100) NOT NULL,
+  `user_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `user_pass` varchar(256) NOT NULL,
   `user_phone` varchar(100) NOT NULL,
-  `user_address` text NOT NULL
+  `user_address` text CHARACTER SET utf8 COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -246,8 +283,9 @@ CREATE TABLE `user` (
 -- Схема на данните от таблица `user`
 --
 
-INSERT INTO `user` (`user_id`, `user_email`, `user_pass`, `user_phone`, `user_address`) VALUES
-(2, 'gab', '123', '123', '123');
+INSERT INTO `user` (`user_id`, `user_email`, `user_name`, `user_pass`, `user_phone`, `user_address`) VALUES
+(0, 'admin@admin.ad', '', '$2y$10$hqFNlK5Q3tQDGPvzjGHadervY1RX/HAJAu1jFsg7.2mp.IzpCzj4C', '', '321'),
+(5, 'gabriel.pal.96@gmail.com', 'габи', '$2y$10$JfvHYAF5DrtHA2wF.U6Ztu4nCs6rQsnmM5nygbhwtKEK/msBM/kYe', '088', 'елша 212');
 
 -- --------------------------------------------------------
 
@@ -275,6 +313,12 @@ INSERT INTO `zones` (`zones_name`) VALUES
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `admin_user`
+--
+ALTER TABLE `admin_user`
+  ADD PRIMARY KEY (`user_email`);
 
 --
 -- Indexes for table `categoria_pizza`
@@ -329,7 +373,8 @@ ALTER TABLE `recipe_ingredients`
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`user_id`);
+  ADD PRIMARY KEY (`user_id`),
+  ADD UNIQUE KEY `user_email` (`user_email`);
 
 --
 -- Indexes for table `zones`
@@ -345,7 +390,7 @@ ALTER TABLE `zones`
 -- AUTO_INCREMENT for table `categoria_pizza`
 --
 ALTER TABLE `categoria_pizza`
-  MODIFY `id_categoria_pizza` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_categoria_pizza` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `deliverers`
@@ -357,7 +402,7 @@ ALTER TABLE `deliverers`
 -- AUTO_INCREMENT for table `ingredients`
 --
 ALTER TABLE `ingredients`
-  MODIFY `ingredients_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `ingredients_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `orders`
@@ -369,17 +414,23 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT for table `pizza`
 --
 ALTER TABLE `pizza`
-  MODIFY `pizza_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `pizza_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `user_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Ограничения за дъмпнати таблици
 --
+
+--
+-- Ограничения за таблица `admin_user`
+--
+ALTER TABLE `admin_user`
+  ADD CONSTRAINT `admin_user_ibfk_1` FOREIGN KEY (`user_email`) REFERENCES `user` (`user_email`);
 
 --
 -- Ограничения за таблица `deliverers`

@@ -31,6 +31,7 @@ class db
     }
     public function save($sql){
         $con=$this->con();
+        $con->query("SET NAMES utf8");
         return ($con->query($sql))? true:false;
     }
 

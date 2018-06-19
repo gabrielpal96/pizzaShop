@@ -36,7 +36,7 @@ class userController extends Controller
             header('Location: ' . 'registration/');
         }
         if (!$user->checkEmail($_POST['email'])) {
-            $user = new user($_POST['username'], $_POST['email'], $_POST['password'], $_POST['address']);
+            $user = new user($_POST['name'], $_POST['email'], $_POST['password'], $_POST['address'],$_POST['phone']);
             if ($user->save() === true) {
                 header('Location: ' . 'login/');
             }

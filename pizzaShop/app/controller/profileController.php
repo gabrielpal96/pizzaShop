@@ -9,7 +9,9 @@
 class profileController extends Controller
 {
     public function index(){
-        $this->view('profile' . DIRECTORY_SEPARATOR . "index");
+        session_start();
+        $this->model('profile');
+        $this->view('profile' . DIRECTORY_SEPARATOR . "index",["user"=>$this->model->getUser($_SESSION["email"])]);
         $this->view->render();
     }
     public function editAddress(){
@@ -23,7 +25,7 @@ class profileController extends Controller
         $address=$_POST["address"];
         $profile=new profile();
         $profile->editAddress($address);
-        header('Location: ' . '/profile/editAddress');
+        header('Location: ' . '/profile/');
     }
 
 }
