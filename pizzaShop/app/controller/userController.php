@@ -79,8 +79,9 @@ class userController extends Controller
         {
             session_start();
         }
-        session_destroy();
-        //$_SESSION["email"]=null;
+      //  session_destroy();
+        $_SESSION["email"]=null;
+        $_SESSION["isAdmin"]=false;
        header('Location: ' . '/');
     }
 

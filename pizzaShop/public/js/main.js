@@ -6,15 +6,12 @@ function myFunction() {
         txt = "You pressed Cancel!";
     }
 }
-(function(){
+function deletePizza(id) {
 
-    $("#cart").on("click", function() {
-        $(".shopping-cart").fadeToggle( "fast");
-    });
-
-})();
-
-$(".quantity").InputSpinner();
-$(".btn-decrement").on('click',function(){
-    console.log($(this).closest('form').serializeArray());
-});
+    var r = confirm("Сигурен ли си че искаш да изтриеш пицата");
+    if (r == true) {
+        window.location.href = "/admin/deletePizza/"+id;
+    } else {
+        txt = "You pressed Cancel!";
+    }
+}

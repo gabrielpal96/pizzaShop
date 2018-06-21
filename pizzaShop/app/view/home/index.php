@@ -89,10 +89,24 @@ if(array_key_exists('pizza',$this->view_data)){
                 <div class=\"card-body\">
                     <button type=\"submit\" class=\"btn btn-outline-primary\">добави</button>
                 </div>
+                
           </form>
+          ";
+;
+            if($_SESSION['isAdmin']){
+            echo "
+                            <div class=\"card-body\">
+                            <a onclick='deletePizza($id)'>
+                    <button type=\"submit\" class=\"btn btn-outline-primary\">изтрий пицата</button>
+                    </a>
+                </div>
+            ";
+            }
+            echo "
         </div>
     </div>
         ";
+
         }
     }
 }

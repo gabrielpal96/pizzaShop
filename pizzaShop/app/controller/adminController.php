@@ -80,9 +80,6 @@ class adminController extends Controller
     public function addPizzaAction(){
         $this->isAdmin();
         $this->model("admin");
-        echo "asd<pre>";
-        print_r($_POST);
-        echo"</pre>";
         $name=current($_POST);
         $price=next($_POST);
         $weight=next($_POST);
@@ -101,7 +98,7 @@ class adminController extends Controller
     }
 
     public function uploadPhoto(){
-
+        $this->isAdmin();
        if(isset($_FILES['image'])){
           $errors= array();
           $file_name = $_FILES['image']['name'];
@@ -128,4 +125,10 @@ class adminController extends Controller
           }
        }
     }
+    public function deletePizza($id=nul){
+        $this->model("admin");
+        $this->model->deletePizza($id);
+       header('Location: ' . '/home/');
+    }
+
 }

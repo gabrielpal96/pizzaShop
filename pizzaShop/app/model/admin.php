@@ -42,4 +42,9 @@ class admin
         }
     }
 
+    public function deletePizza($id){
+        $this->db->run("DELETE FROM `recipe_ingredients` WHERE `recipe_ingredients`.`rec_id` = $id");
+        $this->db->run("DELETE FROM `pizza` WHERE `pizza`.`pizza_id` = $id");
+    }
+
 }
