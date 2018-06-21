@@ -4,7 +4,7 @@ include VIEW . 'header.phtml';
 
     <h2>profile</h2>
 
-<a href="/profile/editAddress"><button>edit address</button></a>
+<a href="/profile/editProfile"><button> edit Profile</button></a>
 <?php
 if(array_key_exists('user',$this->view_data)){
     $user=$this->view_data["user"];

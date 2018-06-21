@@ -9,15 +9,16 @@
 class profile
 {
     private $db;
+
     public function __construct()
+
     {
         $this->db=new db();
     }
 
-    public function getAddress(){
-        session_start();
+    public function getUserProfile(){
         $email=$_SESSION['email'];
-        $sql = "SELECT `user`.`user_address`\n"
+        $sql = "SELECT `user`.`user_email`, `user`.`user_name`, `user`.`user_phone`, `user`.`user_address`\n"
 
             . "FROM `user`\n"
 
@@ -33,8 +34,8 @@ class profile
             . "WHERE (`user`.`user_email` =\"$email\") ORDER BY `user_id`  DESC";
        return $this->db->run($sql)->fetch_assoc();
     }
-    public function editAddress($address){
-        session_start();
+    public function editUserProfil($name,$phone,$address){
+
         $email=$_SESSION['email'];
         $sql = "SELECT `user`.`user_id`\n"
 
@@ -42,7 +43,8 @@ class profile
 
             . "WHERE (`user`.`user_email` =\"$email\") ORDER BY `user_id`  DESC";
         $id=$this->db->run($sql)->fetch_assoc()['user_id'];
-        $sql = "UPDATE `user` SET `user_address` = '$address' WHERE `user`.`user_id` = $id";
+
+        $sql = "UPDATE `user` SET `user_name` = '$name', `user_phone` = '$phone', `user_address` = '$address' WHERE `user`.`user_id` = $id";
         $this->db->run($sql);
     }
 }
