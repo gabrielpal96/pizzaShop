@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 19 юни 2018 в 18:16
+-- Generation Time:  3 юли 2018 в 13:55
 -- Версия на сървъра: 10.1.30-MariaDB
 -- PHP Version: 7.0.27
 
@@ -28,16 +28,16 @@ SET time_zone = "+00:00";
 --
 -- Структура на таблица `admin_user`
 --
--- Създаване: 19 юни 2018 в 13:38
+-- Създаване:  1 юли 2018 в 14:59
 --
 
 CREATE TABLE `admin_user` (
-  `user_email` varchar(100) NOT NULL
+  `admin_email` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- RELATIONSHIPS FOR TABLE `admin_user`:
---   `user_email`
+--   `admin_email`
 --       `user` -> `user_email`
 --
 
@@ -45,15 +45,16 @@ CREATE TABLE `admin_user` (
 -- Схема на данните от таблица `admin_user`
 --
 
-INSERT INTO `admin_user` (`user_email`) VALUES
-('admin@admin.ad');
+INSERT INTO `admin_user` (`admin_email`) VALUES
+('admin@admin.ad'),
+('asd@asd.asd');
 
 -- --------------------------------------------------------
 
 --
 -- Структура на таблица `categoria_pizza`
 --
--- Създаване: 13 юни 2018 в 15:06
+-- Създаване: 26 юни 2018 в 14:06
 --
 
 CREATE TABLE `categoria_pizza` (
@@ -80,7 +81,7 @@ INSERT INTO `categoria_pizza` (`id_categoria_pizza`, `categoria_pizza`) VALUES
 --
 -- Структура на таблица `category_ingredients`
 --
--- Създаване: 28 май 2018 в 14:00
+-- Създаване: 26 юни 2018 в 14:06
 --
 
 CREATE TABLE `category_ingredients` (
@@ -106,13 +107,13 @@ INSERT INTO `category_ingredients` (`category_name`) VALUES
 --
 -- Структура на таблица `deliverers`
 --
--- Създаване: 28 май 2018 в 11:48
+-- Създаване:  3 юли 2018 в 11:24
 --
 
 CREATE TABLE `deliverers` (
   `deliverers_id` int(11) NOT NULL,
-  `deliverers_name` varchar(100) NOT NULL,
-  `deliverers_area` varchar(100) NOT NULL
+  `deliverers_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `deliverers_area` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -121,12 +122,19 @@ CREATE TABLE `deliverers` (
 --       `zones` -> `zones_name`
 --
 
+--
+-- Схема на данните от таблица `deliverers`
+--
+
+INSERT INTO `deliverers` (`deliverers_id`, `deliverers_name`, `deliverers_area`) VALUES
+(11, 'петър петров', 'бояна');
+
 -- --------------------------------------------------------
 
 --
 -- Структура на таблица `ingredients`
 --
--- Създаване: 28 май 2018 в 11:33
+-- Създаване:  1 юли 2018 в 14:59
 --
 
 CREATE TABLE `ingredients` (
@@ -140,8 +148,6 @@ CREATE TABLE `ingredients` (
 -- RELATIONSHIPS FOR TABLE `ingredients`:
 --   `ingredients_category`
 --       `category_ingredients` -> `category_name`
---   `ingredients_category`
---       `category_ingredients` -> `category_name`
 --
 
 --
@@ -149,9 +155,9 @@ CREATE TABLE `ingredients` (
 --
 
 INSERT INTO `ingredients` (`ingredients_id`, `ingredients_name`, `ingredients_category`, `ingredients_price`) VALUES
-(1, 'BBQ', 'sosove', 0),
+(1, 'BBQ сос', 'sosove', 0),
 (3, 'доматен сос', 'sosove', 0),
-(4, 'салам пеперониi', 'meso', 2),
+(4, 'салам пеперони', 'meso', 2),
 (5, 'краве сирене', 'sirena', 1),
 (6, 'chushka', 'zelenchuci\r\n', 1),
 (7, 'Пушена шунка', 'meso', 2),
@@ -170,33 +176,70 @@ INSERT INTO `ingredients` (`ingredients_id`, `ingredients_name`, `ingredients_ca
 --
 -- Структура на таблица `orders`
 --
--- Създаване: 28 май 2018 в 11:55
+-- Създаване:  1 юли 2018 в 14:59
 --
 
 CREATE TABLE `orders` (
   `order_id` int(100) NOT NULL,
-  `pizza` int(100) NOT NULL,
-  `user` int(100) NOT NULL,
-  `more_stuff_id` int(100) NOT NULL,
-  `deliverer` int(100) NOT NULL
+  `user_email` varchar(100) NOT NULL,
+  `user_name` varchar(60) NOT NULL,
+  `user_address` varchar(150) NOT NULL,
+  `user_phone` varchar(20) NOT NULL,
+  `deliverer` int(100) DEFAULT NULL,
+  `status` enum('pending','acknowledged','delievered','') NOT NULL DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- RELATIONSHIPS FOR TABLE `orders`:
---   `user`
---       `user` -> `user_id`
 --   `deliverer`
 --       `deliverers` -> `deliverers_id`
---   `pizza`
---       `pizza` -> `pizza_id`
 --
+
+--
+-- Схема на данните от таблица `orders`
+--
+
+INSERT INTO `orders` (`order_id`, `user_email`, `user_name`, `user_address`, `user_phone`, `deliverer`, `status`) VALUES
+(1, 'admin@admin.ad', 'admin adminski testov', 'kv knqjevo ul elsha 44', '0845214785', 11, 'acknowledged');
+
+-- --------------------------------------------------------
+
+--
+-- Структура на таблица `order_details`
+--
+-- Създаване:  1 юли 2018 в 14:59
+--
+
+CREATE TABLE `order_details` (
+  `order_id` int(100) NOT NULL,
+  `pizza_id` int(100) NOT NULL,
+  `quantity` int(100) NOT NULL,
+  `price` float NOT NULL,
+  `more_stuff_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `note` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- RELATIONSHIPS FOR TABLE `order_details`:
+--   `pizza_id`
+--       `pizza` -> `pizza_id`
+--   `order_id`
+--       `orders` -> `order_id`
+--
+
+--
+-- Схема на данните от таблица `order_details`
+--
+
+INSERT INTO `order_details` (`order_id`, `pizza_id`, `quantity`, `price`, `more_stuff_id`, `note`) VALUES
+(1, 8, 1, 12, '', NULL);
 
 -- --------------------------------------------------------
 
 --
 -- Структура на таблица `pizza`
 --
--- Създаване: 13 юни 2018 в 15:05
+-- Създаване:  1 юли 2018 в 14:59
 --
 
 CREATE TABLE `pizza` (
@@ -219,7 +262,7 @@ CREATE TABLE `pizza` (
 --
 
 INSERT INTO `pizza` (`pizza_id`, `pizza_name`, `pizza_price`, `pizza_weight`, `pizza_photo`, `categoria_pizza`) VALUES
-(0, 'направена пица', 5, 420, 'nova.JPG', 6),
+(0, 'направена ', 5, 420, 'nova.JPG', 6),
 (8, 'пеперони', 12, 420, 'piperoni.jpg', 3),
 (9, 'маргарита', 8, 450, 'margarita.jpg', 4),
 (10, 'люта', 9, 400, 'pivantna.jpg', 5);
@@ -229,7 +272,7 @@ INSERT INTO `pizza` (`pizza_id`, `pizza_name`, `pizza_price`, `pizza_weight`, `p
 --
 -- Структура на таблица `recipe_ingredients`
 --
--- Създаване:  2 юни 2018 в 11:57
+-- Създаване:  1 юли 2018 в 14:59
 --
 
 CREATE TABLE `recipe_ingredients` (
@@ -263,7 +306,7 @@ INSERT INTO `recipe_ingredients` (`rec_id`, `ing_id`) VALUES
 --
 -- Структура на таблица `user`
 --
--- Създаване: 19 юни 2018 в 15:59
+-- Създаване:  1 юли 2018 в 14:59
 --
 
 CREATE TABLE `user` (
@@ -284,19 +327,20 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `user_email`, `user_name`, `user_pass`, `user_phone`, `user_address`) VALUES
-(0, 'admin@admin.ad', '', '$2y$10$hqFNlK5Q3tQDGPvzjGHadervY1RX/HAJAu1jFsg7.2mp.IzpCzj4C', '', '321'),
-(5, 'gabriel.pal.96@gmail.com', 'габи', '$2y$10$JfvHYAF5DrtHA2wF.U6Ztu4nCs6rQsnmM5nygbhwtKEK/msBM/kYe', '088', 'елша 212');
+(0, 'admin@admin.ad', 'admin adminski testov', '$2y$10$hqFNlK5Q3tQDGPvzjGHadervY1RX/HAJAu1jFsg7.2mp.IzpCzj4C', '0845214785', 'kv knqjevo ul elsha 44'),
+(5, 'gabriel.pal.96@gmail.com', 'габи', '$2y$10$JfvHYAF5DrtHA2wF.U6Ztu4nCs6rQsnmM5nygbhwtKEK/msBM/kYe', '08811', 'елша 21'),
+(6, 'asd@asd.asd', 'vsgv', '$2y$10$3MN8NgxW9NpEF34woofSl.AJYD1wKbH3kV73EUQ0j3sydqzI.gSGK', 'asd', 'asd');
 
 -- --------------------------------------------------------
 
 --
 -- Структура на таблица `zones`
 --
--- Създаване: 28 май 2018 в 12:21
+-- Създаване: 26 юни 2018 в 14:06
 --
 
 CREATE TABLE `zones` (
-  `zones_name` varchar(110) NOT NULL
+  `zones_name` varchar(110) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -308,7 +352,10 @@ CREATE TABLE `zones` (
 --
 
 INSERT INTO `zones` (`zones_name`) VALUES
-('banishora');
+('бояна'),
+('бъкстон'),
+('княжево'),
+('люлин');
 
 --
 -- Indexes for dumped tables
@@ -318,7 +365,7 @@ INSERT INTO `zones` (`zones_name`) VALUES
 -- Indexes for table `admin_user`
 --
 ALTER TABLE `admin_user`
-  ADD PRIMARY KEY (`user_email`);
+  ADD PRIMARY KEY (`admin_email`);
 
 --
 -- Indexes for table `categoria_pizza`
@@ -351,9 +398,15 @@ ALTER TABLE `ingredients`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`order_id`),
-  ADD KEY `r12` (`pizza`),
-  ADD KEY `user` (`user`),
-  ADD KEY `deliverer` (`deliverer`);
+  ADD KEY `deliverer` (`deliverer`),
+  ADD KEY `user` (`user_email`);
+
+--
+-- Indexes for table `order_details`
+--
+ALTER TABLE `order_details`
+  ADD PRIMARY KEY (`order_id`,`pizza_id`,`more_stuff_id`),
+  ADD KEY `pizza` (`pizza_id`);
 
 --
 -- Indexes for table `pizza`
@@ -396,7 +449,7 @@ ALTER TABLE `categoria_pizza`
 -- AUTO_INCREMENT for table `deliverers`
 --
 ALTER TABLE `deliverers`
-  MODIFY `deliverers_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `deliverers_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `ingredients`
@@ -408,7 +461,7 @@ ALTER TABLE `ingredients`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(100) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `pizza`
@@ -420,7 +473,7 @@ ALTER TABLE `pizza`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `user_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Ограничения за дъмпнати таблици
@@ -430,7 +483,7 @@ ALTER TABLE `user`
 -- Ограничения за таблица `admin_user`
 --
 ALTER TABLE `admin_user`
-  ADD CONSTRAINT `admin_user_ibfk_1` FOREIGN KEY (`user_email`) REFERENCES `user` (`user_email`);
+  ADD CONSTRAINT `admin_user_ibfk_1` FOREIGN KEY (`admin_email`) REFERENCES `user` (`user_email`);
 
 --
 -- Ограничения за таблица `deliverers`
@@ -448,9 +501,14 @@ ALTER TABLE `ingredients`
 -- Ограничения за таблица `orders`
 --
 ALTER TABLE `orders`
-  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user`) REFERENCES `user` (`user_id`),
-  ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`deliverer`) REFERENCES `deliverers` (`deliverers_id`),
-  ADD CONSTRAINT `r12` FOREIGN KEY (`pizza`) REFERENCES `pizza` (`pizza_id`);
+  ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`deliverer`) REFERENCES `deliverers` (`deliverers_id`);
+
+--
+-- Ограничения за таблица `order_details`
+--
+ALTER TABLE `order_details`
+  ADD CONSTRAINT `order` FOREIGN KEY (`pizza_id`) REFERENCES `pizza` (`pizza_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `order_details_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`);
 
 --
 -- Ограничения за таблица `pizza`

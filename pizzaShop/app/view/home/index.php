@@ -4,6 +4,26 @@ include VIEW . 'header.phtml';
 
     <div class="jumbotron clearfix">
 
+
+                <?php
+                if(!empty($_SESSION["ms"])){
+
+                    echo "
+            <div class=\"alert alert-info\">
+            <strong>
+                    ";
+
+                    echo $_SESSION["ms"] . "<br>";
+                    echo $_SESSION["ms"]="";
+                    echo "
+                                </strong>
+        </div>
+                    ";
+                }
+                ?>
+
+
+
         <ul class="nav nav-pills">
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Категория пици</a>
@@ -66,7 +86,7 @@ if(array_key_exists('pizza',$this->view_data)){
                  alt=\"Pizza image\">
                  </a>
             <div class=\"card-body\">
-                <p class=\"card-text\">Ingredients: cd</p>
+                <p class=\"card-text\">Ingredients: </p>
             </div>
             <ul class=\"list-group list-group-flush\">
                 <li class=\"list-group-item\">$pizza_weight гр.</li>
@@ -75,7 +95,7 @@ if(array_key_exists('pizza',$this->view_data)){
             </ul>
             <div class=\"card-body\">
             <a href='/pizza/viewPizza/$id'>
-                <button type=\"button\" class=\"btn btn-outline-primary\">Order</button>
+                <button type=\"button\" class=\"btn btn-outline-primary\">модифицирай</button>
                 </a>
             </div>
                         
@@ -87,17 +107,17 @@ if(array_key_exists('pizza',$this->view_data)){
                    <input type=\"hidden\" name=\"quantity\"value=1>
 
                 <div class=\"card-body\">
-                    <button type=\"submit\" class=\"btn btn-outline-primary\">добави</button>
+                    <button type=\"submit\" class=\"btn btn-outline-primary\" style='margin: -78px -105px 78px 150px'>Поръчай</button>
                 </div>
                 
           </form>
           ";
-;
+
             if($_SESSION['isAdmin']){
             echo "
                             <div class=\"card-body\">
                             <a onclick='deletePizza($id)'>
-                    <button type=\"submit\" class=\"btn btn-outline-primary\">изтрий пицата</button>
+                    <button type=\"submit\" class=\"btn btn-outline-primary\" style='margin-top: -200px'>Изтрий пицата </button>
                     </a>
                 </div>
             ";

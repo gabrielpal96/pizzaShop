@@ -45,6 +45,7 @@ class cartController extends Controller{
 
                     ($_SESSION['cart'] == null) ? $_SESSION['cart'][0] = $_POST : array_push($_SESSION['cart'], $_POST);
                 }
+                $_SESSION["ms"]='добавихте успешно пица в количката';
                 break;
             }
             case "idPizza":{
@@ -66,11 +67,13 @@ class cartController extends Controller{
                 echo"</pre>";
                 $viewPizza=$pizza->viewPizza($post['idPizza']);
                 $this->addSession($viewPizza['pizza_id'],$viewPizza['pizza_name'],$viewPizza['pizza_price']+$sum,$ingredients);
+                $_SESSION["ms"]='добавихте успешно пица в количката';
                 break;
             }
         }
         }
-      header('Location: ' . '/cart/');
+
+      header('Location: ' . '/home/');
     }
 
     /**
@@ -121,6 +124,21 @@ class cartController extends Controller{
         }
         unset($_SESSION['cart'][$id]);
         header('Location: ' . '/cart/');
+
+    }
+
+    public function updateCart(){
+	    if(!isset($_SESSION))
+	    {
+		    session_start();
+	    }
+	    $cartItem = $_POST['index']-1;
+	    $quantity = $_POST['quantity'];
+	    $oldQuantity =  $_SESSION['cart'][$cartItem]['quantity'];
+	    if($oldQuantity === $quantity) return;
+	    $_SESSION['cart'][$cartItem]['quantity'] = $quantity;
+	    $newTotal = (float)$_POST['total'] + ((float)$quantity - (float)$oldQuantity) * (float)$_POST['price'];
+			echo $newTotal;
 
     }
 

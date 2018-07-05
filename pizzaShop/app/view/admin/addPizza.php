@@ -90,10 +90,13 @@ include VIEW . 'header.phtml';
     ";
                         }
                         ?>
-                    <button type="submit" class="btn btn-outline-primary">dobavi</button>
+                    <button type="submit" class="btn btn-outline-primary">добави пица</button>
 
             </form>
+            <br>
+            <a  href="/admin"><button class="btn btn-outline-primary">отказ</button></a>
         </div>
+
     </div>
 <?php
 include VIEW . 'footer.phtml';

@@ -33,12 +33,12 @@ if(!isset($_SESSION))
     <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="/home/index">menu
+                <a class="nav-link" href="/home/index/">menu
 
                 </a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="/cart">Cart
+                <a class="nav-link" href="/cart/">Cart
 
                 </a>
             </li>
@@ -70,6 +70,11 @@ if(!isset($_SESSION))
                 <a class=\"nav-link\" href=\"/admin/index\">Admin</a>
             </li>
                 ";
+                    echo "
+                            <li class=\"nav-item active\">
+                <a class=\"nav-link\" href=\"/admin/orders\">поръчки</a>
+            </li>
+                ";
                 }
             }
 
@@ -78,5 +83,7 @@ if(!isset($_SESSION))
         </ul>
     </div>
 </nav>
+
+
 </body>
 

@@ -14,7 +14,7 @@ if(!isset($_SESSION))
 	    <?php
 		    if(!empty($_SESSION['cart'])){
 		        $totalPrice=0;
-			    $table = '<table class="table table-hover table-sm">';
+			    $table = '<table name="cart" class="table table-hover table-sm">';
 			    $table .='<thead class="thead-light">
 					<tr>';
 			    $table .='<th>Пица</th>';
@@ -29,11 +29,11 @@ if(!isset($_SESSION))
 			    foreach ($_SESSION['cart'] as $key=>$item){
 
 				    $table .= '<tr>';
-				    $table .= '<td>'.$item["name"].'</td>';
-				    $table .= '<td>'.$item["price"].' лв.'.'</td>';
+				    $table .= '<td><p name="name">'.$item["name"].'</p></td>';
+				    $table .= '<td><p name="price">'.$item["price"].' лв.'.'</p></td>';
                     $totalPrice+=intval($item["price"])*intval($item["quantity"]);
-                    $table .= '<td>'.$item["ingredients"].'</td>';
-                    $table .= '<td><input class="quantity" type="number" value='.$item["quantity"].' min="1" max="10" step="1"/></td>';
+                    $table .= '<td><p name="ingredients">'.$item["ingredients"].'</p></td>';
+                    $table .= '<td><input name="quantity" class="quantity" type="number" value='.$item["quantity"].' min="1" max="10" step="1"/></td>';
                     $table .= '<td>'."<a href='/cart/deletePizzaFromCart/$key'> изтрий</a>".'</td>';
 				    $table .= '</tr>';
 			    }
@@ -42,7 +42,7 @@ if(!isset($_SESSION))
         </table>';
 
 			    echo $table;
-                echo '<p class="total">Общо: '.$totalPrice.'лв.</p>';
+                echo '<p name="total" class="total">Общо: '.$totalPrice.' лв.</p>';
 
 		    }else{
                 $table = '<table class="table table-striped table-hover table-sm">';

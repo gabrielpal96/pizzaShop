@@ -87,8 +87,15 @@ class user
 
     public function isAdmin($email){
         $db=new db();
-        $sql = "SELECT `admin_user`.`user_email` FROM `admin_user` WHERE (`admin_user`.`user_email` =\"$email\")";
+        $sql = "SELECT `admin_email` FROM `admin_user` WHERE `admin_email`='$email'";
         $result= $db->run($sql);
         return (!empty($result->fetch_assoc()))?true:false;
+    }
+
+    public function fetchUser($user){
+	    $db=new db();
+	    $sql="SELECT user_email, user_name, user_phone,user_address FROM `user` WHERE `user_email`=\"$user\"";
+	    $result= $db->run($sql);
+	    return $result->fetch_assoc();
     }
 }

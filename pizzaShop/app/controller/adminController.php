@@ -130,5 +130,88 @@ class adminController extends Controller
         $this->model->deletePizza($id);
        header('Location: ' . '/home/');
     }
+    public function orders(){
+        $this->isAdmin();
+        $this->model("admin");
+        $this->view('admin' . DIRECTORY_SEPARATOR . "orders",['orders'=>$this->model->getOrders(),"Deliverers"=>$this->model->getDeliverers()]);
+        $this->view->render();
+
+    }
+    public function editStatus($id){
+        $this->isAdmin();
+        $this->model("admin");
+
+        switch (key($_POST)){
+            case "deliverer":{
+                if($_POST["deliverer"]=="NULL"){
+                    $this->model->editStatus($id,"NULL",key($_POST));
+                    header('Location: ' . '/admin/orders');
+                }else {
+                    $this->model->editStatus($id, $_POST["deliverer"], key($_POST));
+                    header('Location: ' . '/admin/orders');
+                }
+        break;
+            }
+            case "status":{
+                $status=$_POST["status"];
+                $this->model->editStatus($id,$status,key($_POST));
+                header('Location: ' . '/admin/orders');
+                break;
+            }
+
+        }
+
+    }
+        public function deleteOrder ($id){
+            $this->isAdmin();
+            $this->model("admin");
+            if($this->model->deleteOrder($id)){
+                header('Location: ' . '/admin/orders');
+            }else{
+                echo "<h1> НЕ е изтрита поръчката</h1>" . "<br>";
+            }
+
+        }
+        public function deliverers(){
+            $this->isAdmin();
+            $this->model("admin");
+            $this->view('admin' . DIRECTORY_SEPARATOR . "deliverers",['deliverers'=>$this->model->deliverers(),"zones"=>$this->model->zones()]);
+            $this->view->render();
+
+        }
+    public function deliverersAction(){
+        $this->isAdmin();
+        $this->model("admin");
+        if(!empty($_POST)){
+            if($this->model->saveDelivererZone($_POST["id"],$_POST["zone"])){
+                $_SESSION["ms"]='променихте успешно зоната';
+                header('Location: ' . '/admin/deliverers');
+            }
+
+        }
+    }
+        public function addDeliverer (){
+            $this->isAdmin();
+            $this->model("admin");
+            $this->view('admin' . DIRECTORY_SEPARATOR . "addDeliverer");
+            $this->view->render();
+            if(!empty($_POST)){
+            if ($this->model->addDeliverer ($_POST["name"]));{
+                    $_SESSION["ms"]='успешно довавихте доставчик';
+                    header('Location: ' . '/admin/deliverers');
+                }
+            }
+            }
+
+            public function deleteDeliverer($id){
+                $this->isAdmin();
+                $this->model("admin");
+                if(!$this->model->deleteDeliverer($id)){
+                    $_SESSION["ms"]='Не може да се изтрие доставчика защото е приел доставка за доставяне';
+                }else{
+                    $_SESSION["ms"]='изтрихте доставчика';
+                }
+                header('Location: ' . '/admin/deliverers');
+            }
 
 }
