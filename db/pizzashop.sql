@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time:  3 юли 2018 в 13:55
+-- Generation Time: 10 юли 2018 в 17:24
 -- Версия на сървъра: 10.1.30-MariaDB
 -- PHP Version: 7.0.27
 
@@ -107,7 +107,7 @@ INSERT INTO `category_ingredients` (`category_name`) VALUES
 --
 -- Структура на таблица `deliverers`
 --
--- Създаване:  3 юли 2018 в 11:24
+-- Създаване: 10 юли 2018 в 15:17
 --
 
 CREATE TABLE `deliverers` (
@@ -127,7 +127,8 @@ CREATE TABLE `deliverers` (
 --
 
 INSERT INTO `deliverers` (`deliverers_id`, `deliverers_name`, `deliverers_area`) VALUES
-(11, 'петър петров', 'бояна');
+(11, 'петър петров', 'бояна'),
+(12, 'Иван манчев', 'княжево');
 
 -- --------------------------------------------------------
 
@@ -200,7 +201,8 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`order_id`, `user_email`, `user_name`, `user_address`, `user_phone`, `deliverer`, `status`) VALUES
-(1, 'admin@admin.ad', 'admin adminski testov', 'kv knqjevo ul elsha 44', '0845214785', 11, 'acknowledged');
+(1, 'admin@admin.ad', 'admin adminski testov', 'kv knqjevo ul elsha 44', '0845214785', NULL, 'pending'),
+(2, 'admin@admin.ad', 'admin adminski testov', 'kv knqjevo ul elsha 44', '0845214785', NULL, 'acknowledged');
 
 -- --------------------------------------------------------
 
@@ -232,7 +234,8 @@ CREATE TABLE `order_details` (
 --
 
 INSERT INTO `order_details` (`order_id`, `pizza_id`, `quantity`, `price`, `more_stuff_id`, `note`) VALUES
-(1, 8, 1, 12, '', NULL);
+(1, 8, 1, 12, '', NULL),
+(2, 8, 1, 33, 'Чоризо, Пушен бекон, пиле, Пикантно телешко, Пушена шунка, лук, салам пеперони, риба тон, краве сирене, пармезан, BBQ сос, люти чушки, chushka, маслини', NULL);
 
 -- --------------------------------------------------------
 
@@ -336,11 +339,12 @@ INSERT INTO `user` (`user_id`, `user_email`, `user_name`, `user_pass`, `user_pho
 --
 -- Структура на таблица `zones`
 --
--- Създаване: 26 юни 2018 в 14:06
+-- Създаване: 10 юли 2018 в 14:03
 --
 
 CREATE TABLE `zones` (
-  `zones_name` varchar(110) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL
+  `zones_name` varchar(110) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `id_zones` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -351,11 +355,12 @@ CREATE TABLE `zones` (
 -- Схема на данните от таблица `zones`
 --
 
-INSERT INTO `zones` (`zones_name`) VALUES
-('бояна'),
-('бъкстон'),
-('княжево'),
-('люлин');
+INSERT INTO `zones` (`zones_name`, `id_zones`) VALUES
+('княжево', 3),
+('бояна', 4),
+('люлин', 5),
+('овча купел', 6),
+('зона Б-5', 7);
 
 --
 -- Indexes for dumped tables
@@ -384,6 +389,7 @@ ALTER TABLE `category_ingredients`
 --
 ALTER TABLE `deliverers`
   ADD PRIMARY KEY (`deliverers_id`),
+  ADD UNIQUE KEY `deliverers_name` (`deliverers_name`),
   ADD KEY `deliverers_area` (`deliverers_area`);
 
 --
@@ -433,7 +439,8 @@ ALTER TABLE `user`
 -- Indexes for table `zones`
 --
 ALTER TABLE `zones`
-  ADD PRIMARY KEY (`zones_name`);
+  ADD PRIMARY KEY (`zones_name`),
+  ADD KEY `id_zones` (`id_zones`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -449,7 +456,7 @@ ALTER TABLE `categoria_pizza`
 -- AUTO_INCREMENT for table `deliverers`
 --
 ALTER TABLE `deliverers`
-  MODIFY `deliverers_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `deliverers_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `ingredients`
@@ -461,7 +468,7 @@ ALTER TABLE `ingredients`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `order_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `pizza`
@@ -474,6 +481,12 @@ ALTER TABLE `pizza`
 --
 ALTER TABLE `user`
   MODIFY `user_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `zones`
+--
+ALTER TABLE `zones`
+  MODIFY `id_zones` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- Ограничения за дъмпнати таблици

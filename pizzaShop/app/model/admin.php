@@ -130,19 +130,29 @@ public function editStatus ($id,$status_deliverer,$key){
         }
         return $data;
     }
+    public function addZone($zone){
+            return $this->db->run("INSERT INTO `zones` (`zones_name`) VALUES ('$zone')")?true:false;
+    }
+    public function deleteZone($id){
+            return $this->db->run("DELETE FROM `zones` WHERE `zones`.`id_zones` = $id")?true:false;
+    }
         public function saveDelivererZone ($id,$zone){
             echo $id." = ".$zone;
-                if($this->db->run("UPDATE `deliverers` SET `deliverers_area` = '$zone' WHERE `deliverers`.`deliverers_id` = $id")){
+            if($zone=="NULL"){
+                $sql = "UPDATE `deliverers` SET `deliverers_area` = NULL WHERE `deliverers`.`deliverers_id` = $id";
+            }else{
+                $sql = "UPDATE `deliverers` SET `deliverers_area` = '$zone' WHERE `deliverers`.`deliverers_id` = $id";
+            }
+                if($this->db->run($sql)){
                     return true;
                 }else return false;
             }
 
-    public function addDeliverer ($name)
-    {
+    public function addDeliverer ($name){
         return $this->db->run("INSERT INTO `deliverers` (`deliverers_id`, `deliverers_name`, `deliverers_area`) VALUES (NULL, '$name', NULL)") ? true : false;
     }
-        public function deleteDeliverer($id){
-            return $this->db->run("DELETE FROM `deliverers` WHERE `deliverers`.`deliverers_id` = $id")?true:false;
-        }
+    public function deleteDeliverer($id){
+        return $this->db->run("DELETE FROM `deliverers` WHERE `deliverers`.`deliverers_id` = $id")?true:false;
+    }
 
 }

@@ -186,8 +186,9 @@ class adminController extends Controller
             if($this->model->saveDelivererZone($_POST["id"],$_POST["zone"])){
                 $_SESSION["ms"]='променихте успешно зоната';
                 header('Location: ' . '/admin/deliverers');
+            }else{
+                echo "vyznikna greshka";
             }
-
         }
     }
         public function addDeliverer (){
@@ -196,9 +197,19 @@ class adminController extends Controller
             $this->view('admin' . DIRECTORY_SEPARATOR . "addDeliverer");
             $this->view->render();
             if(!empty($_POST)){
-            if ($this->model->addDeliverer ($_POST["name"]));{
-                    $_SESSION["ms"]='успешно довавихте доставчик';
-                    header('Location: ' . '/admin/deliverers');
+                if($_POST["name"]!=null) {
+
+
+                    if ($this->model->addDeliverer($_POST["name"])) ;
+                    {
+                        $_SESSION["ms"] = 'успешно довавихте доставчик';
+                        echo "<pre>post=";
+                        var_dump($_POST);
+                        echo "</pre>";
+                        header('Location: ' . '/admin/deliverers');
+                    }
+                }else{
+                    echo "<script>  alert(\"не можете да изтриете зоната, защото тя се използва от доставчик\"); </script>";
                 }
             }
             }
@@ -212,6 +223,29 @@ class adminController extends Controller
                     $_SESSION["ms"]='изтрихте доставчика';
                 }
                 header('Location: ' . '/admin/deliverers');
+            }
+
+            public function zones($detele=null,$id=null){
+                $this->isAdmin();
+                $this->model("admin");
+                $this->view('admin' . DIRECTORY_SEPARATOR . "zones",['zones'=>$this->model->zones()]);
+                $this->view->render();
+                $model=new admin();
+                if(!empty($_POST)){
+                    if($model->addZone($_POST["name"])){
+                        $_POST["name"]=array();
+
+                    }
+
+                }
+                if($detele!=null  AND $detele="delete" AND $id!=null){
+                    if($model->deleteZone($id)){
+                        echo "<script> window.location = \"/admin/zones\"; </script>";
+                    }else{
+                        echo "<script>  alert(\"не можете да изтриете зоната, защото тя се използва от доставчик\"); </script>";
+                        echo "<script> window.location = \"/admin/zones\"; </script>";
+                    }
+                }
             }
 
 }

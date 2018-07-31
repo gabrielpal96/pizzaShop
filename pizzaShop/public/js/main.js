@@ -33,6 +33,9 @@ function deleteDeliverer(id) {
         txt = "You pressed Cancel!";
     }
 }
+function reload() {
+    location.reload();
+}
 
 $('.quantity').on('change' ,function () {
     let total = $('.total').text().split(' ')[1];

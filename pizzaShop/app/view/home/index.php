@@ -86,7 +86,7 @@ if(array_key_exists('pizza',$this->view_data)){
                  alt=\"Pizza image\">
                  </a>
             <div class=\"card-body\">
-                <p class=\"card-text\">Ingredients: </p>
+                <p class=\"card-text\"> </p>
             </div>
             <ul class=\"list-group list-group-flush\">
                 <li class=\"list-group-item\">$pizza_weight гр.</li>
@@ -112,7 +112,7 @@ if(array_key_exists('pizza',$this->view_data)){
                 
           </form>
           ";
-
+;
             if($_SESSION['isAdmin']){
             echo "
                             <div class=\"card-body\">

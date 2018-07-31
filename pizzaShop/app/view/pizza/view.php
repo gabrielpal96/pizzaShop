@@ -95,13 +95,12 @@ echo"</div>";//back
                 <div class='divider'>
                 <h4 class=\"text-center\">Цена: $pricePizza лв.</h4>
                 <button type=\"submit\" class=\"btn btn-outline-primary\">добави</button>
-
+            </div>
     ";
 }
 
 ?>
 </form>
-</div>
     </fieldset>
     </div>
 

@@ -15,6 +15,8 @@ include VIEW . 'header.phtml';
                 </div>
                 <input type="submit" value="добави" class="btn btn-outline-primary">
             </form>
+            <br>
+            <a href="/admin/deliverers"><button class="btn btn-outline-primary">назад</button></a>
         </div>
     </div>
 <?php

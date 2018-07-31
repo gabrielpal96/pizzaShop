@@ -19,7 +19,7 @@ class Application
             if(method_exists($this->controller,$this->action)){
                 call_user_func_array([$this->controller,$this->action],$this->prams);
             }else{
-               // header('Location: ' . '/error/error404');
+                header('Location: ' . '/error/error404');
             }
         }
 

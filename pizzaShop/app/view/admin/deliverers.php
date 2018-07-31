@@ -5,6 +5,7 @@ include VIEW . 'header.phtml';
 
     <div class="container">
     <a href="/admin/addDeliverer"><button class="btn btn-outline-primary">Добави доставчик</button></a>
+        <a href="/admin/zones"><button class="btn btn-outline-primary">зони</button></a>
     <br>
     <br>
         <?php

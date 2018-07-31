@@ -36,10 +36,8 @@ $email=$this->view_data["address"]["user_email"];
                         <input class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="äddress" type="address" name="address" value="<?php echo $address?>">
                     </div>
                 </div>
-                    <button type="submit" class="btn btn-outline-primary">запиши</button>
+                    <button type="submit" class="btn btn-outline-primary">Запиши</button>
             </form>
-            <br>
-            <a href="/profile/"><button class="btn btn-outline-primary" >назад</button></a>
         </div>
     </div>
 

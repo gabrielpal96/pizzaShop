@@ -2,9 +2,11 @@
 include VIEW . 'header.phtml';
 ?>
 
-    <h2>profile</h2>
 
-<a href="/profile/editProfile"><button> edit Profile</button></a>
+    <div class="jumbotron jumbotron-fluid">
+    <div align="center">
+        <h2>Профил:</h2>
+<a href="/profile/editProfile"><button class="btn btn-outline-primary"> edit Profile</button></a>
 <?php
 if(array_key_exists('user',$this->view_data)){
     $user=$this->view_data["user"];
@@ -17,6 +19,8 @@ if(array_key_exists('user',$this->view_data)){
 
 }
 ?>
+    </div>
+    </div>
 <?php
 include VIEW . 'footer.phtml';
 ?>
